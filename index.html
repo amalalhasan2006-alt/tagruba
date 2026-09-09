@@ -417,7 +417,6 @@
                 btnTeacher.classList.remove('active');
                 studentCourses.classList.add('active');
                 teacherCourses.classList.remove('active');
-                // تعطيل select المعلم وتمكين select الطالب
                 document.getElementById('courseSelectTeacher').disabled = true;
                 document.getElementById('courseSelectStudent').disabled = false;
             } else {
@@ -444,7 +443,6 @@
         document.getElementById('certificateForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // الحصول على القيم حسب النوع
             let course = '';
             if (currentUserType === 'student') {
                 course = document.getElementById('courseSelectStudent').value;
@@ -455,7 +453,6 @@
             const fullName = document.getElementById('fullName').value.trim();
             const certType = document.getElementById('certType').value;
 
-            // التحقق من الحقول
             if (!course) {
                 alert('يرجى اختيار الدورة التدريبية.');
                 return;
@@ -469,19 +466,15 @@
                 return;
             }
 
-            // توليد الرابط الفريد
             const uniqueId = generateUniqueId();
             const fullLink = `https://quran-nation.com/verify/${uniqueId}`;
 
-            // عرض رسالة النجاح
             document.getElementById('generatedLink').textContent = fullLink;
             document.getElementById('successMessage').classList.add('show');
 
-            // تمرير للرسالة
             document.querySelector('.container').scrollIntoView({ behavior: 'smooth', block: 'end' });
         });
 
-        // ===== تفعيل الوضع الافتراضي (طالب) عند التحميل =====
         document.addEventListener('DOMContentLoaded', function() {
             setUserType('student');
         });
