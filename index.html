@@ -1,435 +1,407 @@
 <!DOCTYPE html>
-<html dir="rtl" lang="ar">
+<html lang="en" dir="ltr" id="htmlRoot">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>طلب شهادة - قرآن نيشن</title>
-    <!-- ربط الخطوط -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <title>Certificate Portal | Quran Nation Academy</title>
+    <!-- Google Fonts: Playfair Display & Plus Jakarta Sans & Tajawal for Arabic -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f6f9f6',
+                            100: '#e5ece5',
+                            200: '#c5d5c5',
+                            500: '#1e4d2b', // Exact deep emerald green from brand
+                            600: '#173c22',
+                            700: '#112d19',
+                            900: '#09180f',
+                            accent: '#c9a84c', // Warm Gold Accent from brand
+                            warmBg: '#fcfaf6'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'Tajawal', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'Tajawal', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        /* ===== استيل مطابق لموقع قرآن نيشن ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Tajawal', sans-serif;
-            background: #f5f7fa;
+            background-color: #fcfaf6;
+            background-image: radial-gradient(#1e4d2b 0.45px, transparent 0.45px), radial-gradient(#1e4d2b 0.45px, #fcfaf6 0.45px);
+            background-size: 36px 36px;
+            background-position: 0 0, 18px 18px;
+            background-opacity: 0.03;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
         }
-
-        .container {
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-            max-width: 780px;
-            width: 100%;
-            padding: 40px 35px;
-            position: relative;
-            border: 1px solid #e8edf5;
+        @keyframes floatGentle {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-6px) rotate(0.3deg); }
         }
-
-        /* ===== الهيدر ===== */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #f0f4f9;
+        .floating-orb {
+            animation: floatGentle 10s ease-in-out infinite;
         }
-
-        .header .logo {
-            font-size: 28px;
-            font-weight: 800;
-            color: #1a2a3a;
-            letter-spacing: 1px;
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(30, 77, 43, 0.12);
         }
-
-        .header .logo span {
-            color: #c9a84c;
-        }
-
-        .header .sub {
-            font-size: 14px;
-            color: #7a8a9e;
-            font-weight: 500;
-            margin-top: 4px;
-        }
-
-        .header .badge {
-            display: inline-block;
-            background: #f0f4f9;
-            padding: 4px 18px;
-            border-radius: 20px;
-            font-size: 12px;
-            color: #4a5a6e;
-            margin-top: 8px;
-            font-weight: 500;
-        }
-
-        /* ===== أزرار نوع المستخدم (طالب / معلم) ===== */
-        .user-type-toggle {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 25px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .user-type-toggle button {
-            padding: 12px 35px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            background: #fafbfc;
-            font-family: 'Tajawal', sans-serif;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            color: #4a5a6e;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-type-toggle button:hover {
-            border-color: #c9a84c;
-            background: #fcf9f0;
-        }
-
-        .user-type-toggle button.active {
-            border-color: #c9a84c;
-            background: #c9a84c;
-            color: #ffffff;
-            box-shadow: 0 4px 15px rgba(201, 168, 76, 0.3);
-        }
-
-        .user-type-toggle button .icon {
-            font-size: 22px;
-        }
-
-        /* ===== النموذج ===== */
-        .form-group {
-            margin-bottom: 22px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            font-size: 15px;
-            color: #2c3e50;
-            margin-bottom: 6px;
-        }
-
-        .form-group label .required {
-            color: #e74c3c;
-        }
-
-        .form-group select,
-        .form-group input[type="text"] {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 16px;
-            font-family: 'Tajawal', sans-serif;
-            transition: all 0.3s;
-            background: #fafbfc;
-            color: #1a2a3a;
-        }
-
-        .form-group select:focus,
-        .form-group input[type="text"]:focus {
-            border-color: #c9a84c;
-            outline: none;
-            background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.12);
-        }
-
-        .form-group select {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234a5a6e' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: left 16px center;
-            padding-left: 40px;
-        }
-
-        /* ===== زر الإرسال ===== */
-        .submit-btn {
-            width: 100%;
-            padding: 14px;
-            background: #c9a84c;
-            color: #ffffff;
-            border: none;
-            border-radius: 12px;
-            font-size: 20px;
-            font-weight: 700;
-            font-family: 'Tajawal', sans-serif;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 6px;
-            letter-spacing: 0.5px;
-        }
-
-        .submit-btn:hover {
-            background: #b8963a;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(201, 168, 76, 0.35);
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
-        /* ===== رسالة النجاح ===== */
-        .success-message {
-            display: none;
-            background: #e8f8ed;
-            border: 2px solid #2ecc71;
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .success-message.show {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .success-message .icon {
-            font-size: 40px;
-            display: block;
-            margin-bottom: 6px;
-        }
-
-        .success-message h3 {
-            color: #1a7a3a;
-            margin-bottom: 4px;
-        }
-
-        .success-message p {
-            color: #2c5a3a;
-            font-size: 14px;
-        }
-
-        .success-message .link-box {
-            background: #ffffff;
-            padding: 10px 14px;
-            border-radius: 8px;
-            margin: 12px 0 6px;
-            font-size: 14px;
-            color: #1a2a3a;
-            direction: ltr;
-            word-break: break-all;
-            border: 1px dashed #2ecc71;
-        }
-
-        /* ===== تذييل ===== */
-        .footer {
-            text-align: center;
-            margin-top: 28px;
-            font-size: 13px;
-            color: #8a9aae;
-            border-top: 1px solid #edf2f7;
-            padding-top: 18px;
-        }
-
-        .footer strong {
-            color: #4a5a6e;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ===== استجابة للجوال ===== */
-        @media (max-width: 480px) {
-            .container {
-                padding: 24px 18px;
-            }
-
-            .header .logo {
-                font-size: 22px;
-            }
-
-            .user-type-toggle button {
-                padding: 10px 20px;
-                font-size: 16px;
-                flex: 1;
-                justify-content: center;
-            }
-
-            .form-group select,
-            .form-group input[type="text"] {
-                font-size: 15px;
-                padding: 10px 14px;
-            }
-
-            .submit-btn {
-                font-size: 17px;
-                padding: 12px;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .user-type-toggle {
-                flex-direction: column;
-                gap: 10px;
-            }
-            .user-type-toggle button {
-                justify-content: center;
-            }
-        }
-
-        /* ===== إخفاء بعض الأقسام حسب النوع ===== */
-        .course-group-student {
-            display: none;
-        }
-        .course-group-teacher {
-            display: none;
-        }
-        .course-group-student.active {
-            display: block;
-        }
-        .course-group-teacher.active {
-            display: block;
+        * {
+            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease, color 0.2s ease;
         }
     </style>
 </head>
-<body>
+<body class="flex flex-col min-h-screen font-sans antialiased text-slate-800">
 
-    <div class="container">
-        <!-- الهيدر -->
-        <div class="header">
-            <div class="logo">قرآن <span>نيشن</span></div>
-            <div class="sub">Quran Nation Academy</div>
-            <div class="badge">📜 طلب شهادة معتمدة</div>
-        </div>
-
-        <!-- أزرار اختيار نوع المستخدم -->
-        <div class="user-type-toggle">
-            <button id="btnStudent" class="active" onclick="setUserType('student')">
-                <span class="icon">📚</span> طالب
-            </button>
-            <button id="btnTeacher" onclick="setUserType('teacher')">
-                <span class="icon">🧑‍🏫</span> معلم
-            </button>
-        </div>
-
-        <!-- النموذج -->
-        <form id="certificateForm">
-            <!-- ===== دورات الطلاب ===== -->
-            <div id="studentCourses" class="course-group-student active">
-                <div class="form-group">
-                    <label for="courseSelectStudent">الدورة التدريبية <span class="required">*</span></label>
-                    <select id="courseSelectStudent" required>
-                        <option value="">-- اختر الدورة --</option>
-                        <option value="Quran Recitation Course">📖 Quran Recitation Course</option>
-                        <option value="Quran Tajweed Course">🎯 Quran Tajweed Course</option>
-                        <option value="Quranic Arabic Program">🌙 Quranic Arabic Program</option>
-                        <option value="Islamic Studies Course">🕌 Islamic Studies Course</option>
-                        <option value="Learn Arabic with Native Teachers">🗣️ Learn Arabic with Native Teachers</option>
-                    </select>
+    <!-- Top Brand Header Bar -->
+    <header class="w-full bg-white border-b border-slate-200/80 shadow-sm sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo matching reference image -->
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-brand-500 rounded-xl flex items-center justify-center shadow-md text-white">
+                    <!-- Mosque & Book SVG Icon matching brand -->
+                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L3 7v11c0 1.1.9 2 2 2h3v-8h8v8h3c1.1 0 2-.9 2-2V7L12 2zm3 16h-6v-6h6v6zM5 9.5l7-3.9 7 3.9V17h-2v-4a2 2 0 00-2-2h-6a2 2 0 00-2 2v4H5V9.5z"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="text-xl sm:text-2xl font-serif font-bold text-slate-900 tracking-tight block">Quran Nation</span>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-brand-500 block">Academy Portal</span>
                 </div>
             </div>
 
-            <!-- ===== دورات المعلمين ===== -->
-            <div id="teacherCourses" class="course-group-teacher">
-                <div class="form-group">
-                    <label for="courseSelectTeacher">الدورة التدريبية <span class="required">*</span></label>
-                    <select id="courseSelectTeacher" required>
-                        <option value="">-- اختر الدورة --</option>
-                        <option value="دورة تأهيل المعلمات لتعليم الصوتيات العربية باللغة الإنجليزية (نور البيان / فتح الرحمن)">
-                            🎓 دورة تأهيل المعلمات لتعليم الصوتيات العربية (نور البيان / فتح الرحمن)
-                        </option>
-                        <option value="دورة التجويد الأساسي باللغة الإنجليزية">
-                            📖 دورة التجويد الأساسي باللغة الإنجليزية
-                        </option>
-                        <option value="كورس اللغة الإنجليزية لمعلمات القرآن واللغة العربية للناطقين بغيرهما">
-                            🌍 كورس الإنجليزية لمعلمات القرآن (للناطقين بغيرهما)
-                        </option>
-                        <option value="دورة تأهيل المعلمات الشاملة">
-                            🏆 دورة تأهيل المعلمات الشاملة
-                        </option>
-                    </select>
+            <!-- Right side: Contact phone & Language Switcher -->
+            <div class="flex items-center gap-4 sm:gap-6">
+                <!-- Phone Number Badge -->
+                <a href="tel:00201060827585" class="hidden md:flex items-center gap-2 text-xs font-bold text-slate-700 bg-amber-50/80 hover:bg-amber-100/80 px-3.5 py-2 rounded-xl border border-amber-200 transition-all">
+                    <span class="text-brand-accent text-sm">📞</span>
+                    <span dir="ltr">(002) 0106 082 7585</span>
+                </a>
+
+                <!-- Language Switcher Button -->
+                <button type="button" onclick="toggleLanguage()" class="flex items-center gap-2 bg-brand-50 hover:bg-brand-100 text-brand-900 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold border border-brand-200/80 shadow-sm transition-all active:scale-95 cursor-pointer">
+                    <span>🌐</span> <span id="langButtonText">العربية (Arabic)</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-6 md:p-10 relative overflow-hidden">
+        
+        <!-- Decorative Ambient Orbs -->
+        <div class="absolute -top-32 -right-32 w-80 h-80 bg-brand-500/10 rounded-full blur-3xl pointer-events-none floating-orb"></div>
+        <div class="absolute -bottom-32 -left-32 w-80 h-80 bg-brand-accent/15 rounded-full blur-3xl pointer-events-none floating-orb" style="animation-delay: 5s;"></div>
+
+        <div class="w-full max-w-2xl glass-panel rounded-[2.5rem] shadow-2xl p-6 sm:p-10 relative z-10">
+
+            <!-- Title & Badge inside card -->
+            <div class="text-center mb-8 pb-6 border-b border-slate-100">
+                <div class="inline-flex items-center gap-2 bg-brand-50 text-brand-700 px-4 py-1.5 rounded-full text-xs font-bold tracking-wide border border-brand-200/60 shadow-sm mb-3">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span id="badgeText">Official Certificate Request 2026</span>
+                </div>
+                <h1 id="mainTitle" class="text-2xl sm:text-3xl font-serif font-bold text-slate-900">
+                    Quran Nation
+                </h1>
+            </div>
+
+            <!-- User Type Selector Tabs -->
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <button type="button" id="btnStudent" onclick="setUserType('student')" 
+                    class="flex items-center justify-center gap-3 p-4 rounded-2xl border-2 transition-all duration-300 font-bold text-sm sm:text-base shadow-sm cursor-pointer">
+                    <span class="text-xl">📚</span> <span id="labelStudent">Student</span>
+                </button>
+                <button type="button" id="btnTeacher" onclick="setUserType('teacher')" 
+                    class="flex items-center justify-center gap-3 p-4 rounded-2xl border-2 transition-all duration-300 font-bold text-sm sm:text-base shadow-sm cursor-pointer">
+                    <span class="text-xl">🧑‍🏫</span> <span id="labelTeacher">Teacher</span>
+                </button>
+            </div>
+
+            <!-- Form Fields -->
+            <form id="certificateForm" class="space-y-6">
+                
+                <!-- Student Courses Selection Group -->
+                <div id="studentGroup" class="space-y-2">
+                    <label id="labelCourseStudent" for="courseStudent" class="block text-sm font-bold text-slate-900">
+                        Select Course <span class="text-rose-500">*</span>
+                    </label>
+                    <div class="relative">
+                        <select id="courseStudent" class="w-full p-4 bg-white border-2 border-slate-200 rounded-2xl text-slate-800 font-medium focus:outline-none focus:border-brand-500 transition-all appearance-none pr-12 pl-4 shadow-sm">
+                            <!-- Populated via JS -->
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Teacher Training Programs Group -->
+                <div id="teacherGroup" class="space-y-2 hidden">
+                    <label id="labelCourseTeacher" for="courseTeacher" class="block text-sm font-bold text-slate-900">
+                        Select Training Program <span class="text-rose-500">*</span>
+                    </label>
+                    <div class="relative">
+                        <select id="courseTeacher" class="w-full p-4 bg-white border-2 border-slate-200 rounded-2xl text-slate-800 font-medium focus:outline-none focus:border-brand-500 transition-all appearance-none pr-12 pl-4 shadow-sm">
+                            <!-- Populated via JS -->
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Full Name Input Field -->
+                <div class="space-y-2">
+                    <label id="labelFullName" for="fullName" class="block text-sm font-bold text-slate-900">
+                        Full Name (As it should appear on certificate) <span class="text-rose-500">*</span>
+                    </label>
+                    <input type="text" id="fullName" placeholder="e.g. Sarah Abdullah Al-Husseini" required 
+                        class="w-full p-4 bg-white border-2 border-slate-200 rounded-2xl text-slate-800 font-medium focus:outline-none focus:border-brand-500 transition-all shadow-sm" />
+                </div>
+
+                <!-- Certificate Type Selection -->
+                <div class="space-y-2">
+                    <label id="labelCertType" for="certType" class="block text-sm font-bold text-slate-900">
+                        Certificate Category <span class="text-rose-500">*</span>
+                    </label>
+                    <div class="relative">
+                        <select id="certType" required class="w-full p-4 bg-white border-2 border-slate-200 rounded-2xl text-slate-800 font-medium focus:outline-none focus:border-brand-500 transition-all appearance-none pr-12 pl-4 shadow-sm">
+                            <!-- Populated via JS -->
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="submitBtn" class="w-full py-4 bg-brand-500 hover:bg-brand-600 active:scale-[0.99] text-white font-bold text-lg rounded-2xl shadow-xl shadow-brand-500/25 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer">
+                    <span>📩</span> <span id="submitBtnText">Submit Certificate Request</span>
+                </button>
+            </form>
+
+            <!-- Success Message Box -->
+            <div id="successMessage" class="hidden mt-6 p-6 bg-emerald-50 border-2 border-emerald-500/40 rounded-2xl text-center shadow-lg relative z-10">
+                <span class="text-3xl block mb-2">✨</span>
+                <h3 id="successTitle" class="text-lg font-serif font-bold text-brand-900 mb-1">Request Submitted Successfully!</h3>
+                <p id="successDesc" class="text-xs sm:text-sm text-brand-700 mb-3">Your official certificate is being processed and will be issued within 24 hours.</p>
+                <div class="bg-white p-3.5 rounded-xl border border-emerald-200 text-xs sm:text-sm text-brand-900 font-mono tracking-wide break-all select-all shadow-inner" id="generatedLink">
+                    ⏳ Generating secure tracking link...
                 </div>
             </div>
 
-            <!-- حقل الاسم (مشترك) -->
-            <div class="form-group">
-                <label for="fullName">الاسم الكامل (كما سيظهر على الشهادة) <span class="required">*</span></label>
-                <input type="text" id="fullName" placeholder="مثال: أسماء محمد حسن" required />
+            <!-- Custom Notice Modal (Replacing alert) -->
+            <div id="customModal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                <div class="bg-white rounded-[2rem] p-6 sm:p-8 max-w-sm w-full shadow-2xl border border-slate-100 text-center animate-in fade-in zoom-in duration-200">
+                    <div class="text-3xl mb-3">⚠️</div>
+                    <h4 id="modalTitle" class="font-serif font-bold text-lg text-slate-900 mb-2">Notice</h4>
+                    <p id="modalMessage" class="text-sm text-slate-600 mb-6">Please fill in all required fields.</p>
+                    <button type="button" onclick="closeModal()" class="w-full py-3.5 bg-brand-500 text-white font-bold rounded-xl hover:bg-brand-600 transition-colors shadow-lg shadow-brand-500/20 cursor-pointer">
+                        <span id="modalBtnText">Understood</span>
+                    </button>
+                </div>
             </div>
 
-            <!-- نوع الشهادة (مشترك) -->
-            <div class="form-group">
-                <label for="certType">نوع الشهادة <span class="required">*</span></label>
-                <select id="certType" required>
-                    <option value="">-- اختر النوع --</option>
-                    <option value="حضور">📋 شهادة حضور</option>
-                    <option value="اجتياز">⭐ شهادة اجتياز</option>
-                    <option value="تدريب">🎯 شهادة تدريب</option>
-                </select>
-            </div>
-
-            <button type="submit" class="submit-btn">📩 طلب الشهادة</button>
-        </form>
-
-        <!-- رسالة النجاح -->
-        <div id="successMessage" class="success-message">
-            <span class="icon">✅</span>
-            <h3>تم استلام طلبك!</h3>
-            <p>سيتم إصدار شهادتك خلال 24 ساعة.</p>
-            <div class="link-box" id="generatedLink">⏳ جارٍ إنشاء الرابط...</div>
         </div>
+    </main>
 
-        <div class="footer">
-            <strong>قرآن نيشن</strong> — منصة تعليم القرآن الكريم واللغة العربية © 2026
+    <!-- Footer -->
+    <footer class="w-full bg-white border-t border-slate-200/80 py-6 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4">
+            <strong class="text-brand-900">Quran Nation Academy</strong> — <span id="footerText">For learning Quran, Arabic, Tajweed, and Islam Courses</span> © 2026
         </div>
-    </div>
+    </footer>
 
     <script>
-        // ===== التحكم في إظهار دورات الطالب/المعلم =====
+        let currentLang = 'en';
         let currentUserType = 'student';
+
+        const translations = {
+            en: {
+                htmlDir: 'ltr',
+                htmlLang: 'en',
+                badgeText: 'Official Certificate Request 2026',
+                langButtonText: 'العربية (Arabic)',
+                labelStudent: 'Student',
+                labelTeacher: 'Teacher',
+                labelCourseStudent: 'Select Course *',
+                labelCourseTeacher: 'Select Training Program *',
+                labelFullName: 'Full Name (As it should appear on certificate) *',
+                fullNamePlaceholder: 'e.g. Sarah Abdullah Al-Husseini',
+                labelCertType: 'Certificate Category *',
+                submitBtnText: 'Submit Certificate Request',
+                successTitle: 'Request Submitted Successfully!',
+                successDesc: 'Your official certificate is being processed and will be issued within 24 hours.',
+                modalTitle: 'Notice',
+                modalBtnText: 'Understood',
+                alertCourse: 'Please select your course or training program.',
+                alertName: 'Please enter your full name as required.',
+                alertCert: 'Please select the certificate category.',
+                footerText: 'For learning Quran, Arabic, Tajweed, and Islam Courses',
+                studentCourses: [
+                    { val: '', text: '-- Choose your course --' },
+                    { val: 'Quran Recitation Course', text: '📖 Quran Recitation Course' },
+                    { val: 'Quran Tajweed Course', text: '🎯 Quran Tajweed Course' },
+                    { val: 'Quranic Arabic Program', text: '🌙 Quranic Arabic Program' },
+                    { val: 'Islamic Studies Course', text: '🕌 Islamic Studies Course' },
+                    { val: 'Learn Arabic with Native Teachers', text: '🗣️ Learn Arabic with Native Teachers' }
+                ],
+                teacherCourses: [
+                    { val: '', text: '-- Choose training program --' },
+                    { val: 'Arabic Phonetics Teaching Certification for Women (Noor Al-Bayan / Fath Al-Rahman)', text: '🎓 Arabic Phonetics Training (Noor Al-Bayan / Fath Al-Rahman)' },
+                    { val: 'Essential Tajweed Methodology Course', text: '📖 Essential Tajweed Methodology Course' },
+                    { val: 'English Language Course for Quran & Arabic Teachers', text: '🌍 English for Quran & Arabic Teachers' },
+                    { val: 'Comprehensive Teacher Training Fellowship', text: '🏆 Comprehensive Teacher Training Fellowship' }
+                ],
+                certTypes: [
+                    { val: '', text: '-- Select type --' },
+                    { val: 'Certificate of Attendance', text: '📋 Certificate of Attendance' },
+                    { val: 'Certificate of Completion & Excellence', text: '⭐ Certificate of Completion & Excellence' },
+                    { val: 'Professional Training Credential', text: '🎯 Professional Training Credential' }
+                ]
+            },
+            ar: {
+                htmlDir: 'rtl',
+                htmlLang: 'ar',
+                badgeText: 'بوابة طلب الشهادات الرسمية 2026',
+                langButtonText: 'English (إنجليزي)',
+                labelStudent: 'طالب /ـة',
+                labelTeacher: 'معلم /ـة',
+                labelCourseStudent: 'اختر الدورة التدريبية *',
+                labelCourseTeacher: 'اختر البرنامج التدريبي *',
+                labelFullName: 'الاسم الكامل (كما سيوضع على الشهادة) *',
+                fullNamePlaceholder: 'مثال: أسماء محمد حسن',
+                labelCertType: 'نوع الشهادة المطلوبة *',
+                submitBtnText: '📩 إرسال طلب الشهادة',
+                successTitle: 'تم استلام طلبك بنجاح!',
+                successDesc: 'جاري معالجة شهادتك الرسمية وسيتم إرسالها خلال 24 ساعة.',
+                modalTitle: 'تنبيه هام',
+                modalBtnText: 'حسناً',
+                alertCourse: 'يرجى اختيار الدورة أو البرنامج التدريبي.',
+                alertName: 'يرجى إدخال الاسم الكامل بدقة.',
+                alertCert: 'يرجى اختيار نوع الشهادة المطلوبة.',
+                footerText: 'لتعلم القرآن الكريم، واللغة العربية، والتجويد، والعلوم الإسلامية',
+                studentCourses: [
+                    { val: '', text: '-- اختر الدورة --' },
+                    { val: 'Quran Recitation Course', text: '📖 دورة تلاوة القرآن الكريم' },
+                    { val: 'Quran Tajweed Course', text: '🎯 دورة التجويد وأحكام التلاوة' },
+                    { val: 'Quranic Arabic Program', text: '🌙 برنامج العربية القرآنية' },
+                    { val: 'Islamic Studies Course', text: '🕌 دورة الدراسات الإسلامية' },
+                    { val: 'Learn Arabic with Native Teachers', text: '🗣️ تعلم العربية مع معلمين أصليين' }
+                ],
+                teacherCourses: [
+                    { val: '', text: '-- اختر البرنامج التدريبي --' },
+                    { val: 'Arabic Phonetics Teaching Certification for Women (Noor Al-Bayan / Fath Al-Rahman)', text: '🎓 دورة تأهيل المعلمات لتعليم الصوتيات العربية (نور البيان / فتح الرحمن)' },
+                    { val: 'Essential Tajweed Methodology Course', text: '📖 دورة التجويد الأساسي ومناهج التدريس' },
+                    { val: 'English Language Course for Quran & Arabic Teachers', text: '🌍 كورس اللغة الإنجليزية لمعلمات القرآن واللغة العربية' },
+                    { val: 'Comprehensive Teacher Training Fellowship', text: '🏆 دورة تأهيل المعلمات الشاملة والاعتماد' }
+                ],
+                certTypes: [
+                    { val: '', text: '-- اختر النوع --' },
+                    { val: 'Certificate of Attendance', text: '📋 شهادة حضور' },
+                    { val: 'Certificate of Completion & Excellence', text: '⭐ شهادة اجتياز وتفوق' },
+                    { val: 'Professional Training Credential', text: '🎯 اعتماد تدريبي مهني' }
+                ]
+            }
+        };
+
+        function updateSelectOptions(selectId, optionsArray, currentSelectedVal) {
+            const selectElem = document.getElementById(selectId);
+            selectElem.innerHTML = '';
+            optionsArray.forEach(opt => {
+                const optElem = document.createElement('option');
+                optElem.value = opt.val;
+                optElem.textContent = opt.text;
+                if (opt.val === currentSelectedVal) {
+                    optElem.selected = true;
+                }
+                selectElem.appendChild(optElem);
+            });
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            const t = translations[currentLang];
+            
+            document.getElementById('htmlRoot').setAttribute('dir', t.htmlDir);
+            document.getElementById('htmlRoot').setAttribute('lang', t.htmlLang);
+
+            document.getElementById('badgeText').textContent = t.badgeText;
+            document.getElementById('langButtonText').textContent = t.langButtonText;
+            document.getElementById('labelStudent').textContent = t.labelStudent;
+            document.getElementById('labelTeacher').textContent = t.labelTeacher;
+            document.getElementById('labelCourseStudent').firstChild.nodeValue = t.labelCourseStudent;
+            document.getElementById('labelCourseTeacher').firstChild.nodeValue = t.labelCourseTeacher;
+            document.getElementById('labelFullName').firstChild.nodeValue = t.labelFullName;
+            document.getElementById('fullName').placeholder = t.fullNamePlaceholder;
+            document.getElementById('labelCertType').firstChild.nodeValue = t.labelCertType;
+            document.getElementById('submitBtnText').textContent = t.submitBtnText;
+            document.getElementById('successTitle').textContent = t.successTitle;
+            document.getElementById('successDesc').textContent = t.successDesc;
+            document.getElementById('modalTitle').textContent = t.modalTitle;
+            document.getElementById('modalBtnText').textContent = t.modalBtnText;
+            document.getElementById('footerText').textContent = t.footerText;
+
+            const curStudentVal = document.getElementById('courseStudent').value;
+            const curTeacherVal = document.getElementById('courseTeacher').value;
+            const curCertVal = document.getElementById('certType').value;
+
+            updateSelectOptions('courseStudent', t.studentCourses, curStudentVal);
+            updateSelectOptions('courseTeacher', t.teacherCourses, curTeacherVal);
+            updateSelectOptions('certType', t.certTypes, curCertVal);
+        }
 
         function setUserType(type) {
             currentUserType = type;
             const btnStudent = document.getElementById('btnStudent');
             const btnTeacher = document.getElementById('btnTeacher');
-            const studentCourses = document.getElementById('studentCourses');
-            const teacherCourses = document.getElementById('teacherCourses');
+            const studentGroup = document.getElementById('studentGroup');
+            const teacherGroup = document.getElementById('teacherGroup');
+
+            const courseStudent = document.getElementById('courseStudent');
+            const courseTeacher = document.getElementById('courseTeacher');
 
             if (type === 'student') {
-                btnStudent.classList.add('active');
-                btnTeacher.classList.remove('active');
-                studentCourses.classList.add('active');
-                teacherCourses.classList.remove('active');
-                document.getElementById('courseSelectTeacher').disabled = true;
-                document.getElementById('courseSelectStudent').disabled = false;
+                btnStudent.className = "flex items-center justify-center gap-3 p-4 rounded-2xl border-2 transition-all duration-300 font-bold text-sm sm:text-base shadow-sm border-brand-500 bg-brand-500 text-white shadow-brand-500/25 cursor-pointer";
+                btnTeacher.className = "flex items-center justify-center gap-3 p-4 rounded-2xl border-2 transition-all duration-300 font-bold text-sm sm:text-base shadow-sm border-slate-200 bg-white text-slate-600 hover:border-brand-200 cursor-pointer";
+                
+                studentGroup.classList.remove('hidden');
+                teacherGroup.classList.add('hidden');
+                courseStudent.disabled = false;
+                courseTeacher.disabled = true;
+                courseTeacher.value = '';
             } else {
-                btnTeacher.classList.add('active');
-                btnStudent.classList.remove('active');
-                teacherCourses.classList.add('active');
-                studentCourses.classList.remove('active');
-                document.getElementById('courseSelectStudent').disabled = true;
-                document.getElementById('courseSelectTeacher').disabled = false;
+                btnTeacher.className = "flex items-center justify-center gap-3 p-4 rounded-2xl border-2 transition-all duration-300 font-bold text-sm sm:text-base shadow-sm border-brand-500 bg-brand-500 text-white shadow-brand-500/25 cursor-pointer";
+                btnStudent.className = "flex items-center justify-center gap-3 p-4 rounded-2xl border-2 transition-all duration-300 font-bold text-sm sm:text-base shadow-sm border-slate-200 bg-white text-slate-600 hover:border-brand-200 cursor-pointer";
+                
+                teacherGroup.classList.remove('hidden');
+                studentGroup.classList.add('hidden');
+                courseTeacher.disabled = false;
+                courseStudent.disabled = true;
+                courseStudent.value = '';
             }
         }
 
-        // ===== توليد رابط فريد =====
+        function showModal(msg) {
+            document.getElementById('modalMessage').textContent = msg;
+            document.getElementById('customModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('customModal').classList.add('hidden');
+        }
+
         function generateUniqueId() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let result = 'QN-';
@@ -439,30 +411,30 @@
             return result;
         }
 
-        // ===== معالج إرسال النموذج =====
         document.getElementById('certificateForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            const t = translations[currentLang];
 
             let course = '';
             if (currentUserType === 'student') {
-                course = document.getElementById('courseSelectStudent').value;
+                course = document.getElementById('courseStudent').value;
             } else {
-                course = document.getElementById('courseSelectTeacher').value;
+                course = document.getElementById('courseTeacher').value;
             }
 
             const fullName = document.getElementById('fullName').value.trim();
             const certType = document.getElementById('certType').value;
 
             if (!course) {
-                alert('يرجى اختيار الدورة التدريبية.');
+                showModal(t.alertCourse);
                 return;
             }
             if (!fullName) {
-                alert('يرجى إدخال الاسم الكامل.');
+                showModal(t.alertName);
                 return;
             }
             if (!certType) {
-                alert('يرجى اختيار نوع الشهادة.');
+                showModal(t.alertCert);
                 return;
             }
 
@@ -470,15 +442,19 @@
             const fullLink = `https://quran-nation.com/verify/${uniqueId}`;
 
             document.getElementById('generatedLink').textContent = fullLink;
-            document.getElementById('successMessage').classList.add('show');
-
-            document.querySelector('.container').scrollIntoView({ behavior: 'smooth', block: 'end' });
+            const successBox = document.getElementById('successMessage');
+            successBox.classList.remove('hidden');
+            successBox.scrollIntoView({ behavior: 'smooth', block: 'end' });
         });
 
+        // Initialize default options and student view on load
         document.addEventListener('DOMContentLoaded', function() {
+            const t = translations[currentLang];
+            updateSelectOptions('courseStudent', t.studentCourses, '');
+            updateSelectOptions('courseTeacher', t.teacherCourses, '');
+            updateSelectOptions('certType', t.certTypes, '');
             setUserType('student');
         });
     </script>
-
 </body>
 </html>
